@@ -1,0 +1,711 @@
+// ===================
+// © AngelaMos | 2026
+// grade.module.scss
+// ===================
+
+@use '../../styles/fonts' as *;
+@use '../../styles/mixins' as *;
+
+$paper: #e7e4da;
+$panel: #eeebe2;
+$ink: #191917;
+$ink-soft: #55534b;
+$muted: #86847a;
+$line: rgb(25 25 23 / 16%);
+$hot: #e5481f;
+
+@mixin mono($size: 0.72rem) {
+  font-family: $font-mono;
+  font-size: $size;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  color: $ink;
+}
+
+// --- corner registration ticks ---------------------------------------------
+.tick {
+  position: fixed;
+  z-index: 5;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: $ink;
+  }
+
+  &::before {
+    top: 0;
+    width: 16px;
+    height: 1.5px;
+  }
+
+  &::after {
+    left: 0;
+    width: 1.5px;
+    height: 16px;
+  }
+}
+
+.tl {
+  top: 14px;
+  left: 14px;
+}
+
+.tr {
+  top: 14px;
+  right: 14px;
+
+  &::before {
+    right: 0;
+    left: auto;
+  }
+
+  &::after {
+    right: 0;
+    left: auto;
+  }
+}
+
+.bl {
+  bottom: 14px;
+  left: 14px;
+
+  &::before {
+    top: auto;
+    bottom: 0;
+  }
+
+  &::after {
+    top: auto;
+    bottom: 0;
+  }
+}
+
+.br {
+  right: 14px;
+  bottom: 14px;
+
+  &::before {
+    inset: auto 0 0 auto;
+  }
+
+  &::after {
+    inset: auto 0 0 auto;
+  }
+}
+
+// --- top chrome ------------------------------------------------------------
+.chrome {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px solid $ink;
+}
+
+.chromeLeft {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-family: $font-black;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.chromeSub {
+  @include mono(0.66rem);
+
+  color: $muted;
+}
+
+.chromeMid {
+  @include mono(0.66rem);
+
+  color: $ink-soft;
+}
+
+.chromeRight {
+  @include mono(0.66rem);
+
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  color: $muted;
+}
+
+.chromeStatus {
+  color: $ink;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 0.4rem;
+    background: $hot;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}
+
+// --- intro -----------------------------------------------------------------
+.intro {
+  padding-top: clamp(2rem, 7vw, 5.5rem);
+}
+
+.introHead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: end;
+
+  @include breakpoint-up('md') {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.title {
+  font-family: $font-black;
+  font-size: clamp(3.4rem, 11vw, 8.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.titleHot {
+  color: $hot;
+}
+
+.lede {
+  max-width: 42ch;
+  padding-bottom: 0.4rem;
+  font-family: $font-mono;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: $ink-soft;
+}
+
+// --- dropzone --------------------------------------------------------------
+.dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding: clamp(2.5rem, 8vw, 5.5rem) 1.5rem;
+  background-color: $panel;
+  background-image:
+    linear-gradient($ink, $ink), linear-gradient($ink, $ink),
+    linear-gradient($ink, $ink), linear-gradient($ink, $ink),
+    linear-gradient($ink, $ink), linear-gradient($ink, $ink),
+    linear-gradient($ink, $ink), linear-gradient($ink, $ink);
+  background-repeat: no-repeat;
+  background-position:
+    left top, left top, right top, right top,
+    left bottom, left bottom, right bottom, right bottom;
+  background-size:
+    28px 1.5px, 1.5px 28px, 28px 1.5px, 1.5px 28px,
+    28px 1.5px, 1.5px 28px, 28px 1.5px, 1.5px 28px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background-color: #f2efe6;
+  }
+}
+
+.dropzoneOver {
+  background-color: #f4f0e4;
+  outline: 1.5px solid $hot;
+  outline-offset: -1px;
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dropBig {
+  font-family: $font-black;
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.dropSmall {
+  @include mono(0.68rem);
+
+  color: $muted;
+  text-align: center;
+}
+
+.errorLine {
+  margin-top: 1.1rem;
+  color: $hot;
+
+  @include mono(0.72rem);
+
+  letter-spacing: 0.04em;
+
+  &::before {
+    content: '! ';
+  }
+}
+
+.legend {
+  @include mono(0.64rem);
+
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid $line;
+  color: $muted;
+}
+
+.legendAxes {
+  color: $ink-soft;
+}
+
+// --- working ---------------------------------------------------------------
+.working {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding-top: clamp(2rem, 6vw, 4rem);
+
+  @include breakpoint-up('md') {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+  }
+}
+
+.workingThumb {
+  border: 1.5px solid $ink;
+
+  img {
+    width: 100%;
+    height: auto;
+    filter: grayscale(0.15);
+  }
+}
+
+.log {
+  align-self: center;
+  font-family: $font-mono;
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: $ink;
+}
+
+.logLine {
+  white-space: nowrap;
+}
+
+.logMark {
+  margin-right: 0.5rem;
+  color: $hot;
+}
+
+.caret {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  margin-left: 4px;
+  background: $ink;
+  vertical-align: text-bottom;
+  animation: blink 900ms steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+// --- report ----------------------------------------------------------------
+.report {
+  padding-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.reportGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.75rem);
+  border-bottom: 1.5px solid $ink;
+
+  @include breakpoint-up('md') {
+    grid-template-columns: 0.82fr 1.18fr;
+    align-items: start;
+  }
+}
+
+.specimen {
+  border: 1.5px solid $ink;
+  background: $panel;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.specimenCap {
+  @include mono(0.62rem);
+
+  padding: 0.5rem 0.6rem;
+  border-top: 1px solid $line;
+  color: $muted;
+  word-break: break-all;
+}
+
+.verdict {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.score {
+  font-family: $font-black;
+  font-size: clamp(5rem, 18vw, 12rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+}
+
+.scoreOut {
+  @include mono(0.9rem);
+
+  margin-top: 0.6rem;
+  color: $muted;
+}
+
+.verdictWord {
+  margin-top: 0.6rem;
+  font-family: $font-black;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+
+  &[data-verdict='POSTER'] {
+    color: $ink;
+  }
+
+  &[data-verdict='NEWSPAPER'] {
+    color: $ink-soft;
+  }
+
+  &[data-verdict='SLOP'] {
+    color: $hot;
+  }
+}
+
+.headlineRead {
+  max-width: 52ch;
+  margin-top: 1.1rem;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: $ink-soft;
+}
+
+.readLabel {
+  @include mono(0.6rem);
+
+  display: block;
+  margin-bottom: 0.35rem;
+  color: $muted;
+}
+
+// --- axes ------------------------------------------------------------------
+.axes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+  border-bottom: 1.5px solid $ink;
+}
+
+.axisRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.axisTop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.axisLabel {
+  @include mono(0.7rem);
+
+  width: 5.5rem;
+  flex-shrink: 0;
+  color: $ink;
+}
+
+.axisTrack {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  background: rgb(25 25 23 / 8%);
+}
+
+.axisFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+
+  &[data-band='pass'] {
+    background: $ink;
+  }
+
+  &[data-band='mid'] {
+    background: $ink-soft;
+  }
+
+  &[data-band='fail'] {
+    background: $hot;
+  }
+}
+
+.axisScore {
+  width: 2.2rem;
+  flex-shrink: 0;
+  font-family: $font-mono;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.axisNote {
+  @include mono(0.64rem);
+
+  padding-left: 6.5rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  line-height: 1.55;
+  color: $muted;
+
+  @include breakpoint-down('sm') {
+    padding-left: 0;
+  }
+}
+
+// --- tells -----------------------------------------------------------------
+.blockHead {
+  @include mono(0.7rem);
+
+  padding: clamp(1.4rem, 3vw, 2rem) 0 1rem;
+  color: $ink;
+}
+
+.tells {
+  padding-bottom: 1.4rem;
+  border-bottom: 1.5px solid $ink;
+}
+
+.tellRow {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid $line;
+}
+
+.tellDot {
+  width: 9px;
+  height: 9px;
+  margin-top: 0.4rem;
+  flex-shrink: 0;
+
+  .tellRow[data-sev='CRITICAL'] & {
+    background: $hot;
+  }
+
+  .tellRow[data-sev='MODERATE'] & {
+    background: $ink;
+  }
+
+  .tellRow[data-sev='MINOR'] & {
+    border: 1.5px solid $ink;
+  }
+}
+
+.tellBody {
+  flex: 1;
+}
+
+.tellHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tellName {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: none;
+}
+
+.tellSev {
+  @include mono(0.6rem);
+
+  flex-shrink: 0;
+  color: $muted;
+
+  .tellRow[data-sev='CRITICAL'] & {
+    color: $hot;
+  }
+}
+
+.tellEvidence {
+  margin-top: 0.3rem;
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: $ink-soft;
+}
+
+// --- fixes -----------------------------------------------------------------
+.fixes {
+  padding-bottom: 1.6rem;
+  border-bottom: 1.5px solid $ink;
+}
+
+.oneThing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.1rem;
+  background: $panel;
+  border-left: 3px solid $hot;
+
+  p {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+}
+
+.oneLabel {
+  @include mono(0.6rem);
+
+  color: $hot;
+}
+
+.fixList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  list-style: none;
+}
+
+.fixItem {
+  display: flex;
+  gap: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid $line;
+  font-family: $font-display;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.fixNum {
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+  font-family: $font-mono;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: $hot;
+}
+
+// --- footer + reset --------------------------------------------------------
+.reportFoot {
+  @include mono(0.62rem);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.3rem 0;
+  color: $muted;
+}
+
+.barcode {
+  flex: 1;
+  max-width: 220px;
+  height: 26px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    $ink 0,
+    $ink 1px,
+    transparent 1px,
+    transparent 3px,
+    $ink 3px,
+    $ink 6px,
+    transparent 6px,
+    transparent 8px,
+    $ink 8px,
+    $ink 9px,
+    transparent 9px,
+    transparent 13px
+  );
+}
+
+.again {
+  position: relative;
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.95rem 2rem;
+  background: $ink;
+  border: none;
+  color: $paper;
+  font-family: $font-mono;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: $hot;
+  }
+}

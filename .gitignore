@@ -1,0 +1,40 @@
+# ©AngelaMos | 2026
+# .gitignore
+
+# --- secrets / env (NEVER commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.ty_cache/
+.coverage
+htmlcov/
+
+# --- node ---
+node_modules/
+dist/
+dist-ssr/
+.vite/
+.pnpm-store/
+*.tsbuildinfo
+
+# --- logs / tmp ---
+*.log
+tmp/
+
+# --- os / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
