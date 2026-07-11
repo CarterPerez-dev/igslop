@@ -1,6 +1,6 @@
 <!-- ©AngelaMos | 2026 | README.md -->
 
-```
+```ruby
  ___ ____ ____  _     ___  ____
 |_ _/ ___/ ___|| |   / _ \|  _ \
  | | |  _\___ \| |  | | | | |_) |
@@ -25,7 +25,7 @@ No login. No saved uploads. You get graded and you leave.
 
 ## Run it
 
-```
+```bash
 just dev-up        # needs GEMINI_API_KEY in .env.development
 ```
 
